@@ -1,11 +1,167 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+  <main class="container">
+    <section class="card" aria-label="Profile card">
+      <div class="avatar" aria-hidden="true">SL</div>
+
+      <h1 class="name">Sebastian Lim</h1>
+      <p class="tagline">Software Engineer — building things that matter.</p>
+
+      <p class="bio">
+        I craft software that is fast, reliable, and delightful to use.
+        Passionate about open source, developer tooling, and clean architecture.
+      </p>
+
+      <div class="skills">
+        <span class="skill">TypeScript</span>
+        <span class="skill">Python</span>
+        <span class="skill">Rust</span>
+        <span class="skill">React</span>
+        <span class="skill">Astro</span>
+        <span class="skill">Node.js</span>
+        <span class="skill">Docker</span>
+        <span class="skill">NixOS</span>
+      </div>
+
+      <div class="links">
+        <a
+          href="https://github.com/Sebastianhayashi"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link"
+        >
+          <svg class="link-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0.297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385 0.6 0.113 0.82-0.258 0.82-0.577 0-0.285-0.01-1.04-0.015-2.04-3.338 0.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-0.744 0.084-0.729 0.084-0.729 1.205 0.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495 0.998 0.108-0.776 0.417-1.305 0.76-1.605-2.665-0.3-5.466-1.332-5.466-5.93 0-1.31 0.465-2.38 1.235-3.22-0.135-0.303-0.54-1.523 0.105-3.176 0 0 1.005-0.322 3.3 1.23 0.96-0.267 1.98-0.399 3-0.405 1.02 0.006 2.04 0.138 3 0.405 2.28-1.552 3.285-1.23 3.285-1.23 0.645 1.653 0.24 2.873 0.12 3.176 0.765 0.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92 0.42 0.36 0.81 1.096 0.81 2.22 0 1.606-0.015 2.896-0.015 3.286 0 0.315 0.21 0.69 0.825 0.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path>
+          </svg>
+          GitHub
+        </a>
+        <a href="mailto:microseyuyu@gmail.com" class="link">
+          <svg class="link-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M24 5.457v13.909c0 0.904-0.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"></path>
+          </svg>
+          Email
+        </a>
+        <a
+          href="https://x.com/Sebastianhayashi"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link"
+        >
+          <svg class="link-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+          </svg>
+          X
+        </a>
+      </div>
+    </section>
+  </main>
 </Layout>
+
+<style>
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+    background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120, 119, 198, 0.15), transparent);
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 1px;
+  }
+
+  .name {
+    font-size: 36px;
+    font-weight: 700;
+    color: #fafafa;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .tagline {
+    font-size: 16px;
+    color: #a3a3a3;
+    line-height: 1.6;
+  }
+
+  .bio {
+    font-size: 14px;
+    color: #737373;
+    line-height: 1.7;
+    max-width: 380px;
+  }
+
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .skill {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #d4d4d4;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .skill:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .links {
+    display: flex;
+    gap: 24px;
+    margin-top: 8px;
+  }
+
+  .link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #737373;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .link:hover {
+    color: #f5f5f5;
+  }
+
+  .link-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+  }
+</style>
