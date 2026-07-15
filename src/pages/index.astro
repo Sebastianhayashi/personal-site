@@ -26,6 +26,16 @@ import Layout from '../layouts/Layout.astro';
         <span class="skill">NixOS</span>
       </div>
 
+      <div class="writing">
+        <a
+          href={`${import.meta.env.BASE_URL}/posts/yan-xiao-zhong-jiang-ben-jie-jue-fang-an`}
+          class="writing-link"
+        >
+          <span class="writing-label">Latest writing</span>
+          <span class="writing-title">他不是在找便宜的烟小种</span>
+        </a>
+      </div>
+
       <div class="links">
         <a
           href="https://github.com/Sebastianhayashi"
@@ -136,6 +146,44 @@ import Layout from '../layouts/Layout.astro';
   .skill:hover {
     background: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .writing {
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .writing-link {
+    display: block;
+    text-align: left;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .writing-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .writing-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    color: #737373;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .writing-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #e5e5e5;
   }
 
   .links {

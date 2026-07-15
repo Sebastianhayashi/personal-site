@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>烟小种降本解决路径研究</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+@page { size: A4; margin: 0; }
+
+body {
+  font-family: "Hiragino Sans GB", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #FAFAFA;
+  color: #333;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  background: #fff;
+  margin: 0 auto 10mm;
+  padding: 16mm 20mm 14mm;
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+  page-break-inside: avoid;
+  break-after: page;
+  break-inside: avoid;
+}
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+@media screen {
+  .page {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-top: 10mm;
+  }
+}
+
+.page-header {
+  border-bottom: 0.5mm solid #E0E0E0;
+  padding-bottom: 5mm;
+  margin-bottom: 8mm;
+}
+.brand {
+  font-size: 7pt;
+  color: #999;
+  letter-spacing: 0.25em;
+  margin-bottom: 3mm;
+  font-weight: 300;
+}
+.title-main {
+  font-size: 18pt;
+  font-weight: 300;
+  line-height: 1.35;
+  color: #2c2c2c;
+  margin-bottom: 3mm;
+  letter-spacing: 0.03em;
+}
+.title-sub {
+  font-size: 9.5pt;
+  color: #888;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+.content { line-height: 1.75; color: #444; }
+.content p { margin-bottom: 0.9rem; font-size: 9.5pt; }
+.content ol, .content ul { margin: 3mm 0 3mm 5mm; font-size: 9pt; color: #444; line-height: 1.75; }
+.content li { margin-bottom: 1.5mm; }
+.content strong { color: #2c2c2c; font-weight: 500; }
+
+.section-title {
+  font-size: 12pt;
+  font-weight: 400;
+  color: #2c2c2c;
+  margin: 8mm 0 4mm;
+  padding-bottom: 2mm;
+  border-bottom: 0.3mm solid #E8E8E8;
+}
+.sub-title {
+  font-size: 10pt;
+  font-weight: 500;
+  color: #444;
+  margin: 5mm 0 2.5mm;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 4mm 0;
+  font-size: 8.5pt;
+}
+.data-table th {
+  padding: 2.5mm 3mm;
+  text-align: left;
+  font-weight: 500;
+  color: #555;
+  border-bottom: 0.4mm solid #CCC;
+  background: #FAFAFA;
+}
+.data-table td {
+  padding: 2.5mm 3mm;
+  border-bottom: 0.2mm solid #EEE;
+  vertical-align: top;
+}
+.data-table tr:last-child td { border-bottom: none; }
+
+.quote-box {
+  background: #FAFAFA;
+  padding: 4mm 5mm;
+  margin: 4mm 0;
+  border-left: 0.8mm solid #C8C8C8;
+}
+.quote-box p { margin: 0; font-size: 9pt; color: #555; line-height: 1.7; }
+
+.risk-item {
+  display: flex;
+  gap: 3mm;
+  padding: 3mm 0;
+  border-bottom: 0.2mm solid #F0F0F0;
+}
+.risk-item:last-child { border-bottom: none; }
+.risk-icon {
+  font-size: 8pt;
+  color: #999;
+  font-weight: 400;
+  min-width: 5mm;
+}
+.risk-item p { margin: 0; font-size: 9pt; color: #444; line-height: 1.65; }
+
+.footnote {
+  margin-top: 6mm;
+  padding-top: 3mm;
+  border-top: 0.2mm solid #E8E8E8;
+  font-size: 7.5pt;
+  color: #999;
+  line-height: 1.6;
+}
+
+.key-conclusion {
+  border: 0.3mm solid #D8D8D8;
+  padding: 5mm;
+  margin: 5mm 0;
+}
+.key-conclusion h3 {
+  font-size: 9pt;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 2mm;
+  letter-spacing: 0.1em;
+}
+.key-conclusion p { font-size: 9pt; color: #444; line-height: 1.7; margin: 0; }
+
+.page-num {
+  position: absolute;
+  bottom: 8mm;
+  right: 10mm;
+  font-size: 8pt;
+  color: #BBB;
+}
+
+.warn-tag {
+  color: #c45c26;
+  font-weight: 500;
+}
+
+sup {
+  font-size: 7pt;
+  color: #777;
+  vertical-align: super;
+  line-height: 0;
+}
+
+a { color: #777; text-decoration: none; word-break: break-all; font-size: 8.5pt; }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+    <div class="brand" style="margin-bottom: 12mm;">RESEARCH NOTE</div>
+    <div class="title-main" style="font-size: 22pt; margin-bottom: 5mm;">烟小种降本<br>解决路径研究</div>
+    <div class="title-sub" style="margin-bottom: 16mm;">20 元/500g 以内替代传统松烟香烟小种</div>
+    <div style="font-size: 9pt; color: #888; line-height: 2; margin-bottom: 16mm;">
+      <div>研究日期：2026 年 7 月 6 日</div>
+      <div>用途：烟小种降本采购决策参考</div>
+    </div>
+    <div style="font-size: 8pt; color: #BBB;">1</div>
+  </div>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <div class="brand">解决路径</div>
+    <div class="title-main">核心结论</div>
+  </div>
+  <div class="content">
+    <p>20 元/500g 想同时拿到「茶味重 + 烟熏味重」的传统工艺烟小种，不现实。低价货要么烟感淡薄，要么焦烟味浮在表面。</p>
+<p>优先试这三条路：</p>
+<ol>
+<li><strong>非桐木产区小种红茶 + 食品级烟熏液加香</strong>（最可控）：茶底 8–15 元，烟感自己调。</li>
+<li><strong>找奶茶供应链定制加香茶</strong>（最省事）：起订量 50–200kg，可谈到 15–25 元。</li>
+<li><strong>减少烟小种比例 + 香精补味</strong>（迂回）：重新调拼配，可能整体成本更低。</li>
+</ol>
+<p><strong>第一步行动：</strong> 本周同时下单 2–3 款烟熏液样品 + 2 款政和/福安红茶碎样品，做同条件冲泡和拼配测试。</p>
+  </div>
+  <span class="page-num">2</span>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <div class="brand">解决路径</div>
+    <div class="title-main">一、为什么 20 元以内传统烟小种难有烟感</div>
+  </div>
+  <div class="content">
+    <p>先补一个背景：客户目前用的「武夷山 513 厂家」传统松烟香烟小种，市场里并没有叫「513」的厂家。对照 1688 和京东的公开信息，「513」更可能是指正山堂「珍藏 513」系列产品风格的高端传统松烟香。这个档次的成本远远高于 20 元/500g，所以下面的分析把它当作标杆，而不是要在 20 元以内找到同等品质。</p>
+<h3 class="sub-title">1.1 真松烟香靠青楼和马尾松，成本压不住</h3>
+<p>传统烟小种（烟正山小种）的「松烟香」来自桐木关的三层木质「青楼」：通常底层明火烘干、中层熏制、上层萎凋，具体因厂而异。燃烧马尾松产生的松烟慢慢渗入茶叶，历时数日。做茶的人得一直盯着灶口，把松烟香融进去，而不是烧成焦烟味。<a href="https://www.lifeweek.com.cn/h5/article/detail.do?artId=181042">[1]</a></p>
+<p>据行业报道，武夷山自然保护区近年对林木采伐和青楼建设有限制，正宗青楼烟正山小种主要靠前几年存下来的松木制作，产量少、价格高，远远超过 20 元/500g。<a href="https://www.lifeweek.com.cn/h5/article/detail.do?artId=212740">[2]</a></p>
+<h3 class="sub-title">1.2 低价货大多是非桐木产区原料 + 机制生产</h3>
+<p>市面上便宜的「烟小种」一般产自政和、福安、古田、坦洋等地，用当地小种红茶或其他小叶种红茶做原料，机器烘干、筛分、风选，替代青楼慢熏。原料和工艺都省了，烟感自然也跟着省。<a href="https://www.lifeweek.com.cn/h5/article/detail.do?artId=181042">[1]</a></p>
+<p>三联生活周刊有段话说得直接：「更有甚者以他处成茶辅以浓烟熏制，制成所谓『烟小种』，饮之往往滋味淡薄，焦烟味浮于表面，完全没有后期转化而生的桂圆汤感。」<a href="https://www.lifeweek.com.cn/h5/article/detail.do?artId=181042">[1]</a></p>
+<h3 class="sub-title">1.3 10–20 元价位的形态更差</h3>
+<p>这个价位常见红茶碎、茶末、以及经 CTC 工艺（Crushing-Tearing-Curling）制成的红碎茶。原料多为夏秋茶、粗老叶或筛下碎。形态碎、内质薄，就算熏制也挂不住烟感。放到你的拼配里，茶味和烟感都容易被红碎 CTC 盖住。</p>
+  </div>
+  <span class="page-num">3</span>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <div class="brand">解决路径</div>
+    <div class="title-main">二、四条解决路线</div>
+  </div>
+  <div class="content">
+    <h3 class="sub-title">路线 A：非桐木产区红茶 + 食品级烟熏液加香（个人最推荐）</h3>
+<p><strong>思路：</strong> 把烟感和茶味拆开买。茶底选 8–15 元/500g 的政和/福安小种红茶碎或低档工夫红茶，保证茶味；烟感用食品级烟熏液喷淋加香，浓度自己调。</p>
+<p><strong>成本：</strong></p>
+<ul>
+<li>茶底：8–15 元/500g</li>
+<li>烟熏液：食品级约 20–50 元/kg，按 0.1%–0.5% 添加，500g 茶叶增加约 0.01–0.25 元</li>
+<li>加香加工费：自己工厂做要算设备折旧和人工；委外代工约 1–3 元/500g</li>
+<li>合计：约 9–18 元/500g，预算内有余量</li>
+</ul>
+<p><strong>烟感可控性：</strong> 高。稀释比例、喷淋次数、静置时间都能调，批次稳定性比买低价烟小种好得多。</p>
+<p><strong>茶味厚度：</strong> 看茶底。建议选政和/福安的小种红茶碎或低档工夫红茶，比纯 CTC 红碎茶有茶味。</p>
+<p><strong>风险：</strong></p>
+<ul>
+<li>烟熏香精味型难对，得多试几款（山楂核、果木、马尾松方向都试试）</li>
+<li>必须符合 GB 2760，要供应商的食品生产许可证和检测报告</li>
+<li>加香后最好静置 24–72 小时再评，刚加完和放一放味道可能不一样</li>
+<li>烟熏液常温闻着像回事，95°C 热水冲泡后持香能力可能掉，必须做冲泡测试</li>
+</ul>
+<p><strong>匹配难度：</strong> 中等。最难的是选对烟熏液味型，一旦对上，后面批次很稳。</p>
+<p><strong>询价方向：</strong></p>
+<ul>
+<li>茶底：1688 搜「政和 正山小种 红茶碎 批发」「福安 小种红茶 CTC 奶茶基底」</li>
+<li>烟熏液：淘宝/1688 搜「华鲁 烟熏液」「美国红箭 烟熏液 RD-02/RD-04」「食品级烟熏香精」。红箭烟熏液的 RD-02、RD-04 适合喷淋法，茶叶可以参考「喷淋—干燥—再喷淋」的工艺。<a href="https://www.chemicalbook.com/NewsInfo_7409.htm">[3]</a></li>
+</ul>
+
+
+  </div>
+  <span class="page-num">4</span>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <div class="brand">解决路径</div>
+    <div class="title-main">二、四条解决路线</div>
+  </div>
+  <div class="content">
+    <h3 class="sub-title">路线 B：放宽预算到 25–35 元，找低端传统烟小种</h3>
+<p><strong>思路：</strong> 在 25–35 元/500g 这个档找非桐木产区的传统熏制烟小种。这个价位偶尔能碰到用松木熏、烟感较足的，但别指望是桐木关青楼工艺。</p>
+<p><strong>成本：</strong> 25–35 元/500g，比目标高 25%–75%。</p>
+<p><strong>烟感可控性：</strong> 低。供应商怎么熏、熏多久决定烟感，每批可能不一样。</p>
+<p><strong>茶味厚度：</strong> 中等。比 10–20 元碎茶好一些，但仍可能被红碎 CTC 压住。</p>
+<p><strong>风险：</strong></p>
+<ul>
+<li>价格超出目标</li>
+<li>烟感不稳定，批次差异大</li>
+<li>标题党多：很多写「桐木关」的低价货实际产自福安/政和</li>
+</ul>
+<p><strong>匹配难度：</strong> 中高。要试不少样才能找到烟感足且稳定的。</p>
+<p><strong>询价方向：</strong></p>
+<ul>
+<li>1688 搜「福安 传统烟熏小种 批发」「政和 松烟香 小种红茶」</li>
+<li>旧版报告里的福安檀悦茶叶厂、苏阳梅农业有 85 元/500g 传统烟熏小种，可以问有没有更低档、烟感足的批次</li>
+</ul>
+
+<h3 class="sub-title">路线 C：调整拼配结构，减少烟小种 + 烟熏香精补味</h3>
+<p><strong>思路：</strong> 如果烟小种在最终拼配里占比不高，可以降低比例（比如从 30% 降到 15%），用茶味更厚的政和/福安小种红茶或红碎茶补足，同时用少量烟熏液/香精给整体拼配补烟感。</p>
+<p><strong>成本：</strong></p>
+<ul>
+<li>烟小种用量减半，成本直接下降</li>
+<li>烟熏液成本极低（0.01–0.25 元/500g 量级）</li>
+<li>整体拼配成本是否低于原方案，取决于你现有烟小种的采购价。建议把现行采购价作为基线再算。</li>
+</ul>
+<p><strong>烟感可控性：</strong> 高。香精用量可控，作用于整体拼配而不是单一茶底。</p>
+<p><strong>茶味厚度：</strong> 取决于新拼配比例。烟小种少了，但茶底可以选更厚的。</p>
+<p><strong>风险：</strong></p>
+<ul>
+<li>需要重新调试整体拼配比例</li>
+<li>品牌方是否接受配方变更</li>
+<li>烟熏香精与锡兰、红碎 CTC 的兼容性要测试</li>
+</ul>
+<p><strong>匹配难度：</strong> 中等。需要做一次系统性的拼配实验。</p>
+<p><strong>询价方向：</strong></p>
+<ul>
+<li>和原烟小种供应商沟通能不能降规格、降比例</li>
+<li>和香精供应商沟通烟熏液在红茶拼配中的推荐用量</li>
+</ul>
+
+
+  </div>
+  <span class="page-num">5</span>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <div class="brand">解决路径</div>
+    <div class="title-main">二、四条解决路线</div>
+  </div>
+  <div class="content">
+    <h3 class="sub-title">路线 D：找奶茶/餐饮供应链定制加香烟小种</h3>
+<p><strong>思路：</strong> 直接找给奶茶品牌供基底茶的厂家，按你的烟感、茶感、价位要求定制。他们通常有稳定的加香/调香渠道和制茶产线。</p>
+<p><strong>成本：</strong> 定制起订量一般 50–200kg，单价可谈到 15–25 元/500g。量大能压到 20 元以内。</p>
+<p><strong>烟感可控性：</strong> 中高。厂家有现成香精库和调香经验，可以打样确认。</p>
+<p><strong>茶味厚度：</strong> 取决于厂家茶底。要明确要求用非桐木产区小种红茶，别给换成纯 CTC 红碎茶。</p>
+<p><strong>风险：</strong></p>
+<ul>
+<li>起订量要求</li>
+<li>配方可能被厂家复用给竞争对手</li>
+<li>需要签保密协议和锁样</li>
+</ul>
+<p><strong>匹配难度：</strong> 中低。适合有稳定用量、不想自己调香的企业。</p>
+<p><strong>询价方向：</strong></p>
+<ul>
+<li>1688 搜「正山小种 奶茶基底茶 定制」「烟熏小种 餐饮用茶 厂家定制」</li>
+<li>旧版报告里的武汉艾达福茶业、福建省茶满香茶叶有限公司可以问定制能力</li>
+<li>检索到的宁德灿丰茶业有限公司有「正山小种蜜香红茶奶茶基底茶 一档二档三档」28 元/500g。奶茶供应链里「一档」通常是最低档，可先问一档的烟感和茶感能否达到要求，再谈定制<a href="http://tw.1688.com/item/-D5FDC9BDD0A1D6D62031303067.html?beginPage=3">[4]</a></li>
+</ul>
+  </div>
+  <span class="page-num">6</span>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <div class="brand">解决路径</div>
+    <div class="title-main">三、路线对比与下一步动作</div>
+  </div>
+  <div class="content">
+    <table class="data-table">
+<thead>
+<tr>
+<th>路线</th>
+<th>单价/500g</th>
+<th>烟感可控性</th>
+<th>茶味厚度</th>
+<th>风险</th>
+<th>匹配难度</th>
+<th>推荐度</th>
+<th>下一步动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A：非桐木产区红茶 + 烟熏液加香</td>
+<td>9–18 元</td>
+<td>高</td>
+<td>中</td>
+<td>香精味型难对、合规要求</td>
+<td>中</td>
+<td>★★★★★</td>
+<td>本周下单 2–3 款烟熏液 + 2 款政和/福安红茶碎样品</td>
+</tr>
+<tr>
+<td>B：放宽预算找低端传统烟小种</td>
+<td>25–35 元</td>
+<td>低</td>
+<td>中</td>
+<td>超预算、批次不稳、产地虚标</td>
+<td>中高</td>
+<td>★★☆☆☆</td>
+<td>1688 搜福安/政和传统烟熏小种，先买 3–5 家样品</td>
+</tr>
+<tr>
+<td>C：减少烟小种 + 香精补味</td>
+<td>待定</td>
+<td>高</td>
+<td>中</td>
+<td>需改配方、品牌方接受度</td>
+<td>中</td>
+<td>★★★★☆</td>
+<td>确认现行烟小种采购价，设计新拼配比例方案</td>
+</tr>
+<tr>
+<td>D：供应链定制</td>
+<td>15–25 元</td>
+<td>中高</td>
+<td>中</td>
+<td>起订量、配方外泄</td>
+<td>中低</td>
+<td>★★★★☆</td>
+<td>联系宁德灿丰、武汉艾达福、茶满香，问定制 MOQ 和打样</td>
+</tr>
+</tbody>
+</table>
+  </div>
+  <span class="page-num">7</span>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <div class="brand">解决路径</div>
+    <div class="title-main">四、供应商清单与询价方向</div>
+  </div>
+  <div class="content">
+    <h3 class="sub-title">4.1 茶底供应商（路线 A / C）</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>供应商</th>
+<th>产品/价格线索</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>福建省茶满香茶叶有限公司</td>
+<td>正山小种红茶碎，12.6 元/500g</td>
+<td><a href="https://detail.1688.com/offer/1002359349545.html">[5]</a></td>
+</tr>
+<tr>
+<td>泉州忆品仙贸易</td>
+<td>政和正山小种原味香 D 级，17.1 元/500g</td>
+<td>旧版报告/Tavily 检索</td>
+</tr>
+<tr>
+<td>武汉艾达福茶业</td>
+<td>A0 黑蚂蚁小种，22 元/500g，标「奶茶专用」</td>
+<td><a href="https://detail.1688.com/offer/544753338028.html">[6]</a></td>
+</tr>
+<tr>
+<td>武夷山桐木关厂家（1688 样品）</td>
+<td>散装样品试喝装 6.18 元起</td>
+<td><a href="https://tw.1688.com/item/-C0CFE8C8BAECB2E8.html?beginPage=2">[7]</a></td>
+</tr>
+<tr>
+<td>宁德灿丰茶业有限公司</td>
+<td>正山小种蜜香红茶奶茶基底茶 一档二档三档，28 元/500g</td>
+<td><a href="http://tw.1688.com/item/-D5FDC9BDD0A1D6D62031303067.html?beginPage=3">[4]</a></td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+  <span class="page-num">8</span>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <div class="brand">解决路径</div>
+    <div class="title-main">四、供应商清单与询价方向</div>
+  </div>
+  <div class="content">
+    <h3 class="sub-title">4.2 烟熏液/香精供应商（路线 A / C / D）</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>供应商/品牌</th>
+<th>产品</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>华鲁</td>
+<td>山楂核烟熏液/烟熏香料</td>
+<td>淘宝/1688 搜索「华鲁 烟熏液」</td>
+</tr>
+<tr>
+<td>美国红箭（Red Arrow）</td>
+<td>烟熏液 RD-02、RD-04，可用于喷淋法</td>
+<td><a href="https://www.chemicalbook.com/NewsInfo_7409.htm">[3]</a></td>
+</tr>
+<tr>
+<td>隆川生物</td>
+<td>美国红箭烟熏液培根腊肠熏肉红肠专用液体香精</td>
+<td>淘宝/1688</td>
+</tr>
+<tr>
+<td>金牛山</td>
+<td>烟熏液 500g，约 14.8 元</td>
+<td>淘宝</td>
+</tr>
+</tbody>
+</table>
+<h3 class="sub-title">4.3 定制供应商（路线 D）</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>供应商</th>
+<th>询价方向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>宁德灿丰茶业有限公司</td>
+<td>一档奶茶基底茶能否加香到足量烟感，定制 MOQ 和打样周期</td>
+</tr>
+<tr>
+<td>武汉艾达福茶业</td>
+<td>奶茶专用烟小种定制，餐饮渠道经验</td>
+</tr>
+<tr>
+<td>福建省茶满香茶叶有限公司</td>
+<td>红茶碎/烟小种批发 + 加香定制</td>
+</tr>
+</tbody>
+</table>
+<p><strong>联系建议：</strong> 1688 平台留言响应慢，建议直接拨打店铺电话或加旺旺/微信，第一句说明「奶茶原料采购，月用量 XX 公斤，找烟小种/烟熏红茶基底茶定制」。</p>
+  </div>
+  <span class="page-num">9</span>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <div class="brand">解决路径</div>
+    <div class="title-main">五、样品验证与盲测</div>
+  </div>
+  <div class="content">
+    <h3 class="sub-title">5.1 样品测试流程</h3>
+<p>建议按这个流程走，避免一次性铺开太大：</p>
+<ol>
+<li><strong>第一轮初筛</strong>：从路线 A、D 各选 2–3 家供应商，每家买 500g 样品，共 6–9 个样。</li>
+<li><strong>同条件冲泡</strong>：95–100°C，茶水比 1:50，3 分钟出汤。每个样单独测，也按原拼配比例（锡兰 + 红碎 CTC + 烟小种）做拼配测试。</li>
+<li><strong>第二轮聚焦</strong>：选出 2–3 个候选，做加香浓度梯度测试（0.05%、0.1%、0.2%、0.5%）和拼配兼容性测试。</li>
+<li><strong>锁样前验证</strong>：候选样做加速储存测试（40°C 7 天），再测一次冲泡烟感衰减。</li>
+<li><strong>锁样下单</strong>：选定后让供应商封存样品，大货到货按锁样验收。</li>
+</ol>
+
+  </div>
+  <span class="page-num">10</span>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <div class="brand">解决路径</div>
+    <div class="title-main">五、样品验证与盲测</div>
+  </div>
+  <div class="content">
+    <h3 class="sub-title">5.2 同条件冲泡方法</h3>
+<ul>
+<li>水温：95–100°C</li>
+<li>茶水比：1:50（按最终拼配比例测试）</li>
+<li>时间：3 分钟，取第一泡；再测第三泡持久度</li>
+<li>对照样：现有武夷山 513 风格传统松烟香烟小种</li>
+</ul>
+<h3 class="sub-title">5.3 盲测打分表（5 分制，总分 30 分）</h3>
+<table class="data-table">
+<thead>
+<tr>
+<th>维度</th>
+<th>权重</th>
+<th>合格线</th>
+<th>关注重点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>干茶烟香</td>
+<td>1</td>
+<td>3 分</td>
+<td>松烟香是否自然，有无刺鼻焦味</td>
+</tr>
+<tr>
+<td>汤色</td>
+<td>1</td>
+<td>红亮</td>
+<td>红亮度、透明度</td>
+</tr>
+<tr>
+<td>茶感厚度</td>
+<td>1.5</td>
+<td>3.5 分</td>
+<td>茶汤是否饱满，能否压住红碎 CTC</td>
+</tr>
+<tr>
+<td>烟感强度</td>
+<td>2</td>
+<td>4 分</td>
+<td>烟熏味是否足够突出</td>
+</tr>
+<tr>
+<td>烟茶协调度</td>
+<td>1.5</td>
+<td>3.5 分</td>
+<td>烟味是融入茶汤还是浮在表面</td>
+</tr>
+<tr>
+<td>持久度（3 泡）</td>
+<td>1</td>
+<td>3 分</td>
+<td>3 泡后烟感和茶感是否稳住</td>
+</tr>
+</tbody>
+</table>
+<p><strong>判定标准：</strong></p>
+<ul>
+<li>加权总分 ≥ 22 分：可进入小批量试产</li>
+<li>18–22 分：可优化后复测</li>
+<li>&lt; 18 分：放弃</li>
+</ul>
+
+  </div>
+  <span class="page-num">11</span>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <div class="brand">解决路径</div>
+    <div class="title-main">六、风险提示与鉴别方法</div>
+  </div>
+  <div class="content">
+    <ol>
+<li><strong>产地虚标。</strong> 1688 上大量低价烟小种标题写「桐木关」「武夷山」，实际产自福安、政和、安溪。20 元以内基本不可能是桐木关青楼工艺，别为产地名买单。</li>
+<li>
+<p>鉴别：让供应商提供原料来源证明、SC 证、生产地址。SC 证上的生产地址若不在武夷山星村镇桐木关一带，标题写桐木关就是虚标。</p>
+</li>
+<li>
+<p><strong>香精合规风险。</strong> 烟熏液/香精必须索取供应商的食品生产许可证、检验报告，确认符合 GB 2760。不要用工业烟熏液或来路不明的「熏香油」。</p>
+</li>
+<li>
+<p>鉴别：要求供应商提供营业执照、食品经营许可证、产品第三方检测报告（重点看 PAHs 多环芳烃指标）。优先选有食品香精生产资质的企业，而不是普通淘宝店。</p>
+</li>
+<li>
+<p><strong>风味稳定性。</strong> 低价非桐木产区红茶批次差异大，加香后香气可能一批一个样。大批量前必须锁样，合同里约定验收标准。</p>
+</li>
+<li>
+<p><strong>工艺匹配。</strong> 烟熏液加香茶叶没有现成国标工艺，稀释比例、喷淋量、干燥温度和时间都要自己摸索。小试成功再放大。</p>
+</li>
+<li>
+<p><strong>热水持香。</strong> 烟熏液常温闻着像回事，冲泡后可能掉香。所有候选样必须通过 95°C 热水冲泡测试。</p>
+</li>
+<li>
+<p><strong>价格时效性。</strong> 本报告价格为 2026 年 7 月初公开检索结果，实际交易以供应商最新报价为准。</p>
+</li>
+</ol>
+  </div>
+  <span class="page-num">12</span>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <div class="brand">解决路径</div>
+    <div class="title-main">七、信息来源</div>
+  </div>
+  <div class="content">
+    <ol>
+<li>三联生活周刊《烟正山小种的滋味，松烟香，桂圆汤》：https://www.lifeweek.com.cn/h5/article/detail.do?artId=181042</li>
+<li>三联生活周刊《出走四百年，松烟小种再风靡？》：https://www.lifeweek.com.cn/h5/article/detail.do?artId=212740</li>
+<li>ChemicalBook《红箭烟熏液的使用范围和使用方法》：https://www.chemicalbook.com/NewsInfo_7409.htm</li>
+<li>1688 台湾站「正山小种100g批发」搜索结果（含宁德灿丰茶业）：http://tw.1688.com/item/-D5FDC9BDD0A1D6D62031303067.html?beginPage=3</li>
+<li>1688 福建省茶满香茶叶有限公司商品页：https://detail.1688.com/offer/1002359349545.html</li>
+<li>1688 武汉艾达福茶业商品页：https://detail.1688.com/offer/544753338028.html</li>
+<li>1688 台湾站「老枞红茶」搜索结果（含武夷山桐木关散装样品）：https://tw.1688.com/item/-C0CFE8C8BAECB2E8.html?beginPage=2</li>
+</ol>
+
+<p><strong>说明：</strong> 本报告所有价格、供应商信息均为检索时点公开可见，实际交易条件以供应商确认为准。推荐方案均需进一步尽职调查和样品验证。</p>
+  </div>
+  <span class="page-num">13</span>
+</div>
+
+</body>
+</html>
