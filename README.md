@@ -1,46 +1,21 @@
-# Astro Starter Kit: Basics
+# personal-site
 
-```sh
-npm create astro@latest -- --template basics
-```
+Sebastian Lim 的个人网站：<https://sebastianhayashi.github.io/personal-site/>
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+纯静态 HTML + 单个 CSS 文件。无构建步骤、无 JavaScript、无追踪脚本。
 
-## 🚀 Project Structure
+## 结构
 
-Inside of your Astro project, you'll see the following folders and files:
+- `index.html` — 首页：短 bio、作品选辑、文章列表、联系/订阅
+- `about.html` — 关于页
+- `posts/*.html` — 文章（拼音 slug）
+- `css/style.css` — 全站唯一样式表
+- `烟小种降本解决方案.html` — 《他不是在找便宜的烟小种》中引用的交付报告
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+## 本地预览
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+直接用浏览器打开 `index.html` 即可——所有内部链接都是相对路径，`file://` 下可用。
 
-## 🧞 Commands
+## 部署
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+推送到 `main` 分支即可。GitHub Actions（`.github/workflows/deploy.yml`）会把仓库根目录发布到 `gh-pages` 分支，GitHub Pages 从 `gh-pages` 提供访问。
