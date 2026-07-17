@@ -1,0 +1,83 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { works } from '../data/works';
+
+const directions = (await getCollection('directions'))
+  .sort((a, b) => a.data.order - b.data.order);
+const posts = (await getCollection('posts'))
+  .sort((a, b) => b.data.planted.getTime() - a.data.planted.getTime() || a.data.order - b.data.order);
+
+const statusBadge: Record<string, [string, string]> = {
+  active: ['badge-active', '进行中'],
+  planned: ['badge-planned', '筹备中'],
+};
+const monthFmt = (d: Date) => `${d.getFullYear()} 年 ${d.getMonth() + 1} 月`;
+---
+
+<Base
+  title="Sebastian Lim — 独立开发者"
+  description="Sebastian Lim 的个人网站：我想做的事（方向）、每个方向的过程记录，以及沿路的思考和作品。"
+  current="home"
+  root="."
+>
+  <section>
+    <h1>Sebastian Lim</h1>
+    <p class="lede">独立开发者，做「约束 AI」的工具和把书变成课程/技能的流水线。我公开记录做这些东西的过程。</p>
+  </section>
+
+  <section>
+    <h2>我想做的事</h2>
+    <ul class="direction-list">
+      {directions.map((d) => {
+        const [badgeClass, badgeText] = statusBadge[d.data.status];
+        return (
+          <li class="direction-card">
+            {d.data.page
+              ? <a class="direction-name" href={`./directions/${d.id}.html`}>{d.data.title}</a>
+              : <span class="direction-name">{d.data.title}</span>}
+            <span class={`badge ${badgeClass}`}>{badgeText}</span>
+            <p class="direction-desc">{d.data.summary}</p>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+
+  <section>
+    <h2>最新文章</h2>
+    <ul class="post-list">
+      {posts.map((p) => (
+        <li>
+          <a class="post-title" href={`./posts/${p.id}.html`}>{p.data.listTitle ?? p.data.title}</a>
+          <span class="post-meta">{monthFmt(p.data.planted)}</span>
+          <p class="post-summary">{p.data.summary}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section>
+    <h2>作品选辑</h2>
+    <p class="section-note">想做的事往前走时，掉下来的副产品。</p>
+    <ul class="work-list">
+      {works.map((w) => (
+        <li>
+          <span class="work-name">
+            {w.nameLink
+              ? <a href={w.nameLink} target="_blank" rel="noopener noreferrer">{w.name}</a>
+              : w.name}
+          </span>
+          <span class="work-desc" set:html={w.desc} />
+          <span class="work-status" set:html={w.status} />
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section>
+    <h2>联系与订阅</h2>
+    <p>邮箱：<a href="mailto:microseyuyu@gmail.com">microseyuyu@gmail.com</a> ｜ X：<a href="https://x.com/Sebastianhayashi" target="_blank" rel="noopener noreferrer">@Sebastianhayashi</a></p>
+    <p class="muted">邮件订阅功能建设中。想第一时间收到新文章，发封邮件告诉我即可。</p>
+  </section>
+</Base>

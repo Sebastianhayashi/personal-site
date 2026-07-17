@@ -1,0 +1,40 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const directions = await getCollection('directions');
+  return directions
+    .filter((d) => d.data.page)
+    .map((direction) => ({
+      params: { slug: direction.id },
+      props: { direction },
+    }));
+}
+
+const { direction } = Astro.props;
+const { Content } = await render(direction);
+
+const statusBadge: Record<string, [string, string]> = {
+  active: ['badge-active', '进行中'],
+  planned: ['badge-planned', '筹备中'],
+};
+const [badgeClass, badgeText] = statusBadge[direction.data.status];
+---
+
+<Base
+  title={`${direction.data.title} — Sebastian Lim`}
+  description={direction.data.description ?? direction.data.summary}
+  root=".."
+>
+  <article class="article">
+    <a href="../index.html" class="back-link">← 返回首页</a>
+    <header class="article-header">
+      <h1 class="article-title">{direction.data.title}</h1>
+      <p class="article-meta">
+        方向宣言 ｜ 状态：<span class={`badge ${badgeClass}`}>{badgeText}</span>
+      </p>
+    </header>
+    <Content />
+  </article>
+</Base>

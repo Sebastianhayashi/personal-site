@@ -1,0 +1,47 @@
+---
+// 全站基础布局：页眉导航 + 页脚 + Lenis 平滑滚动。
+// root 为相对路径前缀：顶层页面用 '.'，二级页面（posts/ directions/）用 '..'，
+// 保证所有内部引用都是相对路径，file:// 直接打开也能用。
+interface Props {
+  title: string;
+  description: string;
+  root?: '.' | '..';
+  current?: 'home' | 'about';
+}
+const { title, description, root = '.', current } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content={description}>
+<link rel="icon" type="image/svg+xml" href={`${root}/favicon.svg`}>
+<link rel="stylesheet" href={`${root}/css/style.css`}>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-title" href={`${root}/index.html`}>Sebastian Lim</a>
+  <nav class="site-nav">
+    <a href={`${root}/index.html`} aria-current={current === 'home' ? 'page' : undefined}>首页</a>
+    <a href={`${root}/about.html`} aria-current={current === 'about' ? 'page' : undefined}>关于</a>
+    <a href="https://github.com/Sebastianhayashi" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="mailto:microseyuyu@gmail.com">邮箱</a>
+  </nav>
+</header>
+
+<main>
+  <slot />
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 Sebastian Lim ｜ 手工制作的静态页面，无追踪脚本</p>
+</footer>
+
+<script is:inline src={`${root}/js/lenis.min.js`}></script>
+<script is:inline src={`${root}/js/smooth-scroll.js`}></script>
+</body>
+</html>

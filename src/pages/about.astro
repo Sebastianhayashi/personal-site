@@ -1,27 +1,13 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>关于 — Sebastian Lim</title>
-<meta name="description" content="关于 Sebastian Lim：独立开发者，做约束 AI 的工具和把书变成课程/技能的流水线。">
-<link rel="icon" type="image/svg+xml" href="./favicon.svg">
-<link rel="stylesheet" href="./css/style.css">
-</head>
-<body>
+---
+import Base from '../layouts/Base.astro';
+---
 
-<header class="site-header">
-  <a class="site-title" href="./index.html">Sebastian Lim</a>
-  <nav class="site-nav">
-    <a href="./index.html">首页</a>
-    <a href="./about.html" aria-current="page">关于</a>
-    <a href="https://github.com/Sebastianhayashi" target="_blank" rel="noopener noreferrer">GitHub</a>
-    <a href="mailto:microseyuyu@gmail.com">邮箱</a>
-  </nav>
-</header>
-
-<main>
-
+<Base
+  title="关于 — Sebastian Lim"
+  description="关于 Sebastian Lim：独立开发者，做约束 AI 的工具和把书变成课程/技能的流水线。"
+  current="about"
+  root="."
+>
   <article class="article">
     <header class="article-header">
       <h1 class="article-title">关于</h1>
@@ -44,14 +30,4 @@
 
     <p>联系我：<a href="mailto:microseyuyu@gmail.com">microseyuyu@gmail.com</a> ｜ 订阅更新：邮件订阅功能建设中，欢迎直接发邮件。</p>
   </article>
-
-</main>
-
-<footer class="site-footer">
-  <p>© 2026 Sebastian Lim ｜ 手工制作的静态页面，无追踪脚本</p>
-</footer>
-
-<script src="js/lenis.min.js"></script>
-<script src="js/smooth-scroll.js"></script>
-</body>
-</html>
+</Base>

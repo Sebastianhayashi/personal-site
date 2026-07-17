@@ -3,3 +3,8 @@
 
 # jetbrains setting folder
 .idea/
+
+# Astro
+node_modules/
+dist/
+.astro/

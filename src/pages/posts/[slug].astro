@@ -1,0 +1,42 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const direction = post.data.direction
+  ? await getEntry('directions', post.data.direction)
+  : undefined;
+const monthFmt = (d: Date) => `${d.getFullYear()} 年 ${d.getMonth() + 1} 月`;
+---
+
+<Base
+  title={`${post.data.title} — Sebastian Lim`}
+  description={post.data.description ?? post.data.summary}
+  root=".."
+>
+  <article class="article">
+    <a href="../index.html" class="back-link">← 返回首页</a>
+    <header class="article-header">
+      <h1 class="article-title">{post.data.title}</h1>
+      <p class="article-meta">
+        {monthFmt(post.data.planted)}
+        {direction && (
+          <>
+            ｜ 所属方向：<a href={`../directions/${direction.id}.html`}>{direction.data.title}</a>
+          </>
+        )}
+      </p>
+    </header>
+    <Content />
+  </article>
+</Base>
