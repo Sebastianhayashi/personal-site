@@ -2,12 +2,13 @@
 
 Sebastian Lim 的个人网站：<https://sebastianhayashi.github.io/personal-site/>
 
-纯静态 HTML + 单个 CSS 文件。无构建步骤、无 JavaScript、无追踪脚本。
+纯静态 HTML + 单个 CSS 文件。无构建步骤、无追踪脚本；JS 仅用于 Lenis 平滑滚动（`js/`）。
 
 ## 结构
 
-- `index.html` — 首页：短 bio、作品选辑、文章列表、联系/订阅
+- `index.html` — 首页：短 bio、我想做的事（方向）、最新文章、作品选辑、联系/订阅
 - `about.html` — 关于页
+- `directions/*.html` — 方向页：方向宣言、时间线、归档、经验
 - `posts/*.html` — 文章（拼音 slug）
 - `css/style.css` — 全站唯一样式表
 - `烟小种降本解决方案.html` — 《他不是在找便宜的烟小种》中引用的交付报告

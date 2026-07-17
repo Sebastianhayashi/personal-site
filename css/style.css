@@ -187,3 +187,102 @@ h2::before {
   main { max-width: none; padding: 0; }
   section + section { margin-top: 1.6rem; }
 }
+
+/* ---------- 徽章（方向卡片 / 时间线共用） ---------- */
+/* 基础徽章=灰框（筹备中/完成）；badge-active=进行中；badge-pivot=转向；badge-paused=搁置 */
+
+.badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1;
+  padding: 0.34em 0.7em;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  margin-left: 0.6em;
+  vertical-align: 0.22em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.badge-active { color: var(--paper); background: var(--accent); border-color: var(--accent); }
+.badge-pivot { color: var(--accent); border-color: var(--accent); }
+.badge-paused { color: var(--warm); border-color: var(--warm); }
+
+/* ---------- 首页：方向卡片 ---------- */
+
+.direction-list { list-style: none; }
+.direction-card {
+  padding: 0.95rem 0;
+  border-top: 1px solid var(--line);
+}
+.direction-card:first-child { border-top: 0; padding-top: 0; }
+.direction-name {
+  font-weight: 700;
+  font-size: 1.08rem;
+  color: var(--ink);
+}
+a.direction-name { text-decoration: none; }
+a.direction-name:hover { color: var(--accent-deep); text-decoration: underline; text-underline-offset: 0.22em; }
+.direction-desc { color: var(--muted); font-size: 0.95rem; margin-top: 0.2rem; }
+
+.section-note { color: var(--muted); font-size: 0.92rem; margin: -0.5rem 0 1rem; }
+
+/* ---------- 方向页：时间线 ---------- */
+
+.timeline {
+  list-style: none;
+  margin-left: 0.4rem;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--line);
+}
+.article ol.timeline { margin-left: 0.4rem; }
+.timeline-item {
+  position: relative;
+  padding-bottom: 1.7rem;
+}
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: calc(-1.5rem - 0.35rem - 1px);
+  top: 0.42em;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 2px solid var(--accent);
+}
+.timeline-item.is-paused::before { border-color: var(--warm); }
+.timeline-date {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--warm);
+  letter-spacing: 0.04em;
+}
+.timeline-title {
+  display: inline;
+  font-size: 1.06rem;
+}
+.timeline-item p { margin-top: 0.35rem; }
+
+/* ---------- 方向页：归档 / 经验 ---------- */
+
+.archive-list { list-style: none; }
+.article ul.archive-list { margin-left: 0; }
+.archive-list li {
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--line);
+}
+.archive-list li:first-child { border-top: 0; padding-top: 0; }
+.archive-name { font-weight: 700; }
+.archive-list p { color: var(--muted); font-size: 0.95rem; margin-top: 0.2rem; }
+
+.lesson-list li { margin-bottom: 0.7em; }
+
+/* ---------- 打印补充 ---------- */
+
+@media print {
+  .badge { background: none !important; color: #000 !important; border-color: #000; }
+  .timeline { border-left-color: #999; }
+  .timeline-item::before { background: #fff; border-color: #000; }
+}
