@@ -1,7 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
   <title id="title">AI 从教辅走向真正助手</title>
-  <desc id="desc">三个阶段展示 AI 当前像教辅，需要用户组织与判断，未来目标是一句话办事的真正助手。</desc>
+  <desc id="desc">图中展示 AI 当前更像教辅，需要用户判断和收尾；未来真正助手应理解意图并完成闭环。</desc>
   <rect width="1200" height="720" fill="#f7f3eb"/>
   <g font-family="system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Noto Sans SC',sans-serif">
-    <text x="72" y="86" font-size="24" font-weight="700" fill="#008aa0" letter-spacing="3">AI 与普通用户</text>
-    <text x="72" y="152" font-size="50" font-family="Georgia,'Songti SC',serif" fill="#3d3b38">有用，但还没有
+    <text x="72" y="86" font-size="24" font-weight="700" fill="#008aa0" letter-spacing="3">AI 的实际位置</text>
+    <text x="72" y="152" font-size="50" font-family="Georgia,'Songti SC',serif" fill="#3d3b38">它现在更像一本厉害的教辅</text>
+
+    <line x1="120" y1="380" x2="1080" y2="380" stroke="#cfc7bd" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="270" cy="380" r="28" fill="#6f164c"/>
+    <circle cx="610" cy="380" r="28" fill="#d7a45d"/>
+    <circle cx="950" cy="380" r="28" fill="#008aa0"/>
+
+    <text x="190" y="300" font-size="22" font-weight="700" fill="#6f164c">知道很多</text>
+    <text x="154" y="338" font-size="17" fill="#66635f">回答问题、给资料、生成方案</text>
+    <text x="155" y="448" font-size="19" font-family="Georgia,'Songti SC',serif" fill="#3d3b38">“有它能快一点”</text>
+    <text x="174" y="482" font-size="15" fill="#7b746d">但没有也能继续</text>
+
+    <text x="526" y="300" font-size="22" font-weight="700" fill="#8a652d">需要人收尾</text>
+    <text x="488" y="338" font-size="17" fill="#66635f">判断、修改、验证、承担责任</text>
+    <text x="482" y="448" font-size="19" font-family="Georgia,'Songti SC',serif" fill="#3d3b38">“哪里都差一点”</text>
+    <text x="492" y="482" font-size="15" fill="#7b746d">用户仍要自己逼出结果</text>
+
+    <text x="872" y="300" font-size="22" font-weight="700" fill="#008aa0">真正的助手</text>
+    <text x="824" y="338" font-size="17" fill="#66635f">理解意图、完成任务、交付结果</text>
+    <text x="826" y="448" font-size="19" font-family="Georgia,'Songti SC',serif" fill="#3d3b38">“一句话把事办完”</text>
+    <text x="846" y="482" font-size="15" fill="#7b746d">不是展示聪明，而是让人省心</text>
+
+    <path d="M300 380 H578" stroke="#6f164c" stroke-width="4" stroke-dasharray="10 12"/>
+    <path d="M640 380 H918" stroke="#008aa0" stroke-width="4" stroke-dasharray="10 12"/>
+    <text x="72" y="646" font-size="22" fill="#66635f">真正的大用，不是模型显得更聪明，而是用户不再承担最后那三十分。</text>
+  </g>
+</svg>
