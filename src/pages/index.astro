@@ -24,6 +24,21 @@ const stageIcon: Record<string, string> = {
   evergreen: '✺',
 };
 
+const essayCovers: Record<string, { src: string; alt: string }> = {
+  'yan-xiao-zhong-jiang-ben-jie-jue-fang-an': {
+    src: './images/essays/problem-reframing.svg',
+    alt: '从寻找便宜烟小种到重新定义交付问题的过程图',
+  },
+  'ai-you-hen-da-de-yong-ma': {
+    src: './images/essays/ai-as-textbook.svg',
+    alt: 'AI 从教辅走向真正助手的三个阶段',
+  },
+  'ai-ge-ming-de-zhu-jue-yi-zhi-shi-ge-ren': {
+    src: './images/essays/individual-as-protagonist.svg',
+    alt: 'AI 革命换掉配角但没有换掉个人主角位置的关系图',
+  },
+};
+
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'short' }).format(date);
 ---
@@ -53,28 +68,31 @@ const formatDate = (date: Date) =>
       <div class="section-heading">
         <div>
           <h3>文章</h3>
-          <p>有明确观点和叙事目标的完整内容。</p>
+          <p>有明确观点和叙事目标的完整内容。封面图直接解释文章里的核心判断。</p>
         </div>
-        <a href="#essays" aria-label="查看文章">→</a>
       </div>
 
       <div class="essay-grid">
-        {essays.slice(0, 4).map((post, index) => (
-          <a class:list={['essay-card', index === 0 && 'essay-card-featured']} href={`./posts/${post.id}.html`}>
-            <div class="essay-visual" aria-hidden="true">
-              <span>{post.data.topics[0] ?? 'Essay'}</span>
-              <span class="visual-mark">{index % 2 === 0 ? '◇' : '○'}</span>
-            </div>
-            <div class="card-copy">
-              <h4>{post.data.listTitle ?? post.data.title}</h4>
-              <p>{post.data.summary}</p>
-              <div class="card-meta">
-                <span>{stageIcon[post.data.stage]} {stageLabel[post.data.stage]}</span>
-                <span>{formatDate(post.data.tended ?? post.data.planted)}</span>
+        {essays.slice(0, 4).map((post, index) => {
+          const cover = essayCovers[post.id];
+          return (
+            <a class:list={['essay-card', index === 0 && 'essay-card-featured']} href={`./posts/${post.id}.html`}>
+              {cover ? (
+                <div class="essay-visual">
+                  <img src={cover.src} alt={cover.alt} loading={index === 0 ? 'eager' : 'lazy'} />
+                </div>
+              ) : null}
+              <div class="card-copy">
+                <h4>{post.data.listTitle ?? post.data.title}</h4>
+                <p>{post.data.summary}</p>
+                <div class="card-meta">
+                  <span>{stageIcon[post.data.stage]} {stageLabel[post.data.stage]}</span>
+                  <span>{formatDate(post.data.tended ?? post.data.planted)}</span>
+                </div>
               </div>
-            </div>
-          </a>
-        ))}
+            </a>
+          );
+        })}
       </div>
     </section>
 
@@ -86,17 +104,24 @@ const formatDate = (date: Date) =>
         </div>
       </div>
 
-      <div class="note-list">
-        {(notes.length ? notes : essays).slice(0, 7).map((post) => (
-          <a href={`./posts/${post.id}.html`}>
-            <span class="growth-mark" aria-hidden="true">{stageIcon[post.data.stage]}</span>
-            <span>
-              <strong>{post.data.listTitle ?? post.data.title}</strong>
-              <small>{post.data.type === 'essay' ? '待拆成笔记' : post.data.type} · {stageLabel[post.data.stage]}</small>
-            </span>
-          </a>
-        ))}
-      </div>
+      {notes.length ? (
+        <div class="note-list">
+          {notes.slice(0, 7).map((post) => (
+            <a href={`./posts/${post.id}.html`}>
+              <span class="growth-mark" aria-hidden="true">{stageIcon[post.data.stage]}</span>
+              <span>
+                <strong>{post.data.listTitle ?? post.data.title}</strong>
+                <small>{post.data.type} · {stageLabel[post.data.stage]}</small>
+              </span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="honest-empty-state">
+          <strong>这里暂时是空的。</strong>
+          <p>目前发布的三篇内容都是完整文章，还没有为了填满页面而把文章冒充成笔记。下一条真实工作记录会从这里开始。</p>
+        </div>
+      )}
     </section>
 
     <section class="garden-panel directions-panel" id="directions">
@@ -132,9 +157,26 @@ const formatDate = (date: Date) =>
       <div class="section-heading">
         <div>
           <h3>作品与实验</h3>
-          <p>方向向前推进时留下的工具、案例和未完成探索。</p>
+          <p>先展示项目如何工作和解决了什么，再提供仓库或状态。</p>
         </div>
       </div>
+
+      <article class="project-evidence">
+        <div class="project-evidence-visual">
+          <img src="./images/projects/jellyfin-curation-flow.svg" alt="Jellyfin Anime Curator 从只读归档到安全发布的工作流" loading="lazy" />
+        </div>
+        <div class="project-evidence-copy">
+          <p class="eyebrow">Featured system</p>
+          <h4>Jellyfin Anime Curator</h4>
+          <p>把混乱动漫归档转换成可审阅、可回退的 Jellyfin 策展树。原始文件保持只读，不确定决策进入人工审阅，未通过安全门控的结果不会发布。</p>
+          <ul>
+            <li>输入：真实、混乱且不能破坏的源归档</li>
+            <li>过程：事实提取、受限分类、确定性计划、人工审阅</li>
+            <li>输出：NFO、海报、字幕和符号链接组成的独立策展树</li>
+          </ul>
+          <a href="https://github.com/Sebastianhayashi/jellyfin-anime-curator" target="_blank" rel="noopener noreferrer">查看项目说明 →</a>
+        </div>
+      </article>
 
       <div class="work-grid">
         {featuredWorks.map((work) => (
