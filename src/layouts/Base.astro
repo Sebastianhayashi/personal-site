@@ -1,47 +1,76 @@
 ---
-// 全站基础布局：页眉导航 + 页脚 + Lenis 平滑滚动。
-// root 为相对路径前缀：顶层页面用 '.'，二级页面（posts/ directions/）用 '..'，
-// 保证所有内部引用都是相对路径，file:// 直接打开也能用。
 interface Props {
   title: string;
   description: string;
   root?: '.' | '..';
-  current?: 'home' | 'about';
+  current?: 'home' | 'garden' | 'work' | 'about';
 }
+
 const { title, description, root = '.', current } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title}</title>
-<meta name="description" content={description}>
-<link rel="icon" type="image/svg+xml" href={`${root}/favicon.svg`}>
-<link rel="stylesheet" href={`${root}/css/style.css`}>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={`${root}/favicon.svg`} />
+    <link rel="stylesheet" href={`${root}/css/style.css`} />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="site-title" href={`${root}/index.html`} aria-label="Sebastian Lim 首页">
+        <span class="site-mark" aria-hidden="true">S</span>
+        <span>Sebastian Lim</span>
+      </a>
 
-<header class="site-header">
-  <a class="site-title" href={`${root}/index.html`}>Sebastian Lim</a>
-  <nav class="site-nav">
-    <a href={`${root}/index.html`} aria-current={current === 'home' ? 'page' : undefined}>首页</a>
-    <a href={`${root}/about.html`} aria-current={current === 'about' ? 'page' : undefined}>关于</a>
-    <a href="https://github.com/Sebastianhayashi" target="_blank" rel="noopener noreferrer">GitHub</a>
-    <a href="mailto:microseyuyu@gmail.com">邮箱</a>
-  </nav>
-</header>
+      <nav class="site-nav" aria-label="主导航">
+        <details class="garden-menu">
+          <summary class:list={[current === 'garden' && 'is-current']}>花园</summary>
+          <div class="garden-menu-panel">
+            <a href={`${root}/index.html#essays`}>
+              <strong>文章</strong>
+              <span>完整观点、复盘与叙事</span>
+            </a>
+            <a href={`${root}/index.html#notes`}>
+              <strong>笔记</strong>
+              <span>仍在理解和验证的问题</span>
+            </a>
+            <a href={`${root}/index.html#directions`}>
+              <strong>方向</strong>
+              <span>长期探索的主题入口</span>
+            </a>
+            <a href={`${root}/index.html#work`}>
+              <strong>作品</strong>
+              <span>工具、案例与未完成实验</span>
+            </a>
+          </div>
+        </details>
+        <a href={`${root}/index.html#now`}>现在</a>
+        <a href={`${root}/about.html`} aria-current={current === 'about' ? 'page' : undefined}>关于</a>
+      </nav>
+    </header>
 
-<main>
-  <slot />
-</main>
+    <main>
+      <slot />
+    </main>
 
-<footer class="site-footer">
-  <p>© 2026 Sebastian Lim ｜ 手工制作的静态页面，无追踪脚本</p>
-</footer>
+    <footer class="site-footer">
+      <div>
+        <strong>Sebastian Lim</strong>
+        <p>公开记录受约束 AI、学习系统、归档和个人品味如何变成真实作品。</p>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:microseyuyu@gmail.com">邮箱</a>
+        <a href="https://github.com/Sebastianhayashi" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://x.com/Sebastianhayashi" target="_blank" rel="noopener noreferrer">X</a>
+      </div>
+    </footer>
 
-<script is:inline src={`${root}/js/lenis.min.js`}></script>
-<script is:inline src={`${root}/js/smooth-scroll.js`}></script>
-</body>
+    <script is:inline src={`${root}/js/lenis.min.js`}></script>
+    <script is:inline src={`${root}/js/smooth-scroll.js`}></script>
+  </body>
 </html>
