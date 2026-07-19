@@ -3,81 +3,187 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { works } from '../data/works';
 
-const directions = (await getCollection('directions'))
-  .sort((a, b) => a.data.order - b.data.order);
-const posts = (await getCollection('posts'))
-  .sort((a, b) => b.data.planted.getTime() - a.data.planted.getTime() || a.data.order - b.data.order);
+const directions = (await getCollection('directions')).sort((a, b) => a.data.order - b.data.order);
+const posts = (await getCollection('posts')).sort(
+  (a, b) => b.data.planted.getTime() - a.data.planted.getTime() || a.data.order - b.data.order,
+);
 
-const statusBadge: Record<string, [string, string]> = {
-  active: ['badge-active', '进行中'],
-  planned: ['badge-planned', '筹备中'],
+const essays = posts.filter((post) => post.data.type === 'essay');
+const notes = posts.filter((post) => post.data.type !== 'essay');
+const featuredWorks = works.slice(0, 4);
+
+const stageLabel: Record<string, string> = {
+  seed: '种子',
+  budding: '生长中',
+  evergreen: '常青',
 };
-const monthFmt = (d: Date) => `${d.getFullYear()} 年 ${d.getMonth() + 1} 月`;
+
+const stageIcon: Record<string, string> = {
+  seed: '✦',
+  budding: '❧',
+  evergreen: '✺',
+};
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'short' }).format(date);
 ---
 
 <Base
-  title="Sebastian Lim — 独立开发者"
-  description="Sebastian Lim 的个人网站：我想做的事（方向）、每个方向的过程记录，以及沿路的思考和作品。"
+  title="Sebastian Lim — AI 系统、学习与公开实验"
+  description="Sebastian Lim 的个人花园与工作室：受约束 AI、学习系统、归档实验，以及沿路形成的文章、笔记和作品。"
   current="home"
   root="."
 >
-  <section>
-    <h1>Sebastian Lim</h1>
-    <p class="lede">独立开发者，做「约束 AI」的工具和把书变成课程/技能的流水线。我公开记录做这些东西的过程。</p>
+  <header class="home-intro">
+    <p class="eyebrow">个人花园与工作室</p>
+    <h1><strong>Sebastian</strong> 构建有边界、可验证的 AI 系统，并记录它们如何帮助人学习、整理知识和完成真实工作。</h1>
+    <p class="intro-subtitle">独立开发者。当前主要探索受约束 AI 与 AI 学习系统，也长期关心归档、本地优先和作品背后的个人品味。</p>
+  </header>
+
+  <section class="garden-heading" aria-labelledby="garden-title">
+    <div>
+      <p class="eyebrow">The Garden</p>
+      <h2 id="garden-title">正在生长的内容</h2>
+    </div>
+    <p>这里同时放完整文章、尚未想明白的笔记、长期方向和真实项目。不同成熟度的内容会被明确标记，而不是伪装成最终答案。</p>
   </section>
 
-  <section>
-    <h2>我想做的事</h2>
-    <ul class="direction-list">
-      {directions.map((d) => {
-        const [badgeClass, badgeText] = statusBadge[d.data.status];
-        return (
-          <li class="direction-card">
-            {d.data.page
-              ? <a class="direction-name" href={`./directions/${d.id}.html`}>{d.data.title}</a>
-              : <span class="direction-name">{d.data.title}</span>}
-            <span class={`badge ${badgeClass}`}>{badgeText}</span>
-            <p class="direction-desc">{d.data.summary}</p>
-          </li>
-        );
-      })}
-    </ul>
+  <div class="garden-grid">
+    <section class="garden-panel essays-panel" id="essays">
+      <div class="section-heading">
+        <div>
+          <h3>文章</h3>
+          <p>有明确观点和叙事目标的完整内容。</p>
+        </div>
+        <a href="#essays" aria-label="查看文章">→</a>
+      </div>
+
+      <div class="essay-grid">
+        {essays.slice(0, 4).map((post, index) => (
+          <a class:list={['essay-card', index === 0 && 'essay-card-featured']} href={`./posts/${post.id}.html`}>
+            <div class="essay-visual" aria-hidden="true">
+              <span>{post.data.topics[0] ?? 'Essay'}</span>
+              <span class="visual-mark">{index % 2 === 0 ? '◇' : '○'}</span>
+            </div>
+            <div class="card-copy">
+              <h4>{post.data.listTitle ?? post.data.title}</h4>
+              <p>{post.data.summary}</p>
+              <div class="card-meta">
+                <span>{stageIcon[post.data.stage]} {stageLabel[post.data.stage]}</span>
+                <span>{formatDate(post.data.tended ?? post.data.planted)}</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="garden-panel notes-panel" id="notes">
+      <div class="section-heading">
+        <div>
+          <h3>笔记与碎片</h3>
+          <p>仍在理解、验证或等待连接的东西。</p>
+        </div>
+      </div>
+
+      <div class="note-list">
+        {(notes.length ? notes : essays).slice(0, 7).map((post) => (
+          <a href={`./posts/${post.id}.html`}>
+            <span class="growth-mark" aria-hidden="true">{stageIcon[post.data.stage]}</span>
+            <span>
+              <strong>{post.data.listTitle ?? post.data.title}</strong>
+              <small>{post.data.type === 'essay' ? '待拆成笔记' : post.data.type} · {stageLabel[post.data.stage]}</small>
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="garden-panel directions-panel" id="directions">
+      <div class="section-heading">
+        <div>
+          <h3>长期方向</h3>
+          <p>不是一次性项目，而是我反复回到的问题。</p>
+        </div>
+      </div>
+
+      <div class="direction-grid">
+        {directions.map((direction) => (
+          direction.data.page ? (
+            <a class="direction-card" href={`./directions/${direction.id}.html`}>
+              <span class="direction-number">0{direction.data.order}</span>
+              <h4>{direction.data.title}</h4>
+              <p>{direction.data.summary}</p>
+              <span class="card-link">进入方向 →</span>
+            </a>
+          ) : (
+            <article class="direction-card direction-card-muted">
+              <span class="direction-number">0{direction.data.order}</span>
+              <h4>{direction.data.title}</h4>
+              <p>{direction.data.summary}</p>
+              <span class="card-link">仍在筹备</span>
+            </article>
+          )
+        ))}
+      </div>
+    </section>
+
+    <section class="garden-panel work-panel" id="work">
+      <div class="section-heading">
+        <div>
+          <h3>作品与实验</h3>
+          <p>方向向前推进时留下的工具、案例和未完成探索。</p>
+        </div>
+      </div>
+
+      <div class="work-grid">
+        {featuredWorks.map((work) => (
+          <article class="work-card">
+            <div class="work-stage">{stageIcon[work.stage]} {stageLabel[work.stage]}</div>
+            <h4>
+              {work.nameLink ? (
+                <a href={work.nameLink} target="_blank" rel="noopener noreferrer">{work.name}</a>
+              ) : work.name}
+            </h4>
+            <p set:html={work.desc} />
+            <div class="work-status" set:html={work.status} />
+          </article>
+        ))}
+      </div>
+    </section>
+  </div>
+
+  <section class="now-section" id="now">
+    <div>
+      <p class="eyebrow">Now · 2026 年 7 月</p>
+      <h2>目前正在推进</h2>
+    </div>
+    <div class="now-grid">
+      <article>
+        <span>01</span>
+        <h3>约束 AI</h3>
+        <p>把模型放进可检查、可回退、有发布门槛的系统，而不是让它直接操作真实数据。</p>
+      </article>
+      <article>
+        <span>02</span>
+        <h3>学习系统</h3>
+        <p>继续验证如何把教材、书籍和长期目标转换成真正能推进学习的产品体验。</p>
+      </article>
+      <article>
+        <span>03</span>
+        <h3>公开基地</h3>
+        <p>让这个网站逐渐成为文章、案例、方向和个人品味之间的共同入口。</p>
+      </article>
+    </div>
   </section>
 
-  <section>
-    <h2>最新文章</h2>
-    <ul class="post-list">
-      {posts.map((p) => (
-        <li>
-          <a class="post-title" href={`./posts/${p.id}.html`}>{p.data.listTitle ?? p.data.title}</a>
-          <span class="post-meta">{monthFmt(p.data.planted)}</span>
-          <p class="post-summary">{p.data.summary}</p>
-        </li>
-      ))}
-    </ul>
-  </section>
-
-  <section>
-    <h2>作品选辑</h2>
-    <p class="section-note">想做的事往前走时，掉下来的副产品。</p>
-    <ul class="work-list">
-      {works.map((w) => (
-        <li>
-          <span class="work-name">
-            {w.nameLink
-              ? <a href={w.nameLink} target="_blank" rel="noopener noreferrer">{w.name}</a>
-              : w.name}
-          </span>
-          <span class="work-desc" set:html={w.desc} />
-          <span class="work-status" set:html={w.status} />
-        </li>
-      ))}
-    </ul>
-  </section>
-
-  <section>
-    <h2>联系与订阅</h2>
-    <p>邮箱：<a href="mailto:microseyuyu@gmail.com">microseyuyu@gmail.com</a> ｜ X：<a href="https://x.com/Sebastianhayashi" target="_blank" rel="noopener noreferrer">@Sebastianhayashi</a></p>
-    <p class="muted">邮件订阅功能建设中。想第一时间收到新文章，发封邮件告诉我即可。</p>
+  <section class="contact-section">
+    <p class="eyebrow">Keep in touch</p>
+    <h2>对受约束 AI、学习产品或内容归档感兴趣？</h2>
+    <p>可以从文章和项目开始，也可以直接写信交流。</p>
+    <div class="contact-links">
+      <a href="mailto:microseyuyu@gmail.com">发送邮件</a>
+      <a href="https://github.com/Sebastianhayashi" target="_blank" rel="noopener noreferrer">查看 GitHub</a>
+    </div>
   </section>
 </Base>
