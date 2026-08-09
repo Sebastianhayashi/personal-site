@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "project": "personal-site",
+  "canonical_repository": "Sebastianhayashi/personal-site",
+  "persistence": "github",
+  "workspace_protocol": "wrp/v1",
+  "checkpoint_file": ".agent/checkpoint.md",
+  "state_file": ".agent/state.json"
+}
