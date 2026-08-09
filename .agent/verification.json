@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "profiles": {},
+  "note": "No project-specific local verification profile has been registered yet. Do not invent one. Read AGENTS.md and the current spec before defining verification for future implementation work."
+}
