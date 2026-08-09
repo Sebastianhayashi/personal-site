@@ -1,0 +1,9 @@
+{
+  "project": "personal-site",
+  "lifecycle": "DISCOVERY",
+  "canonical_repository": "Sebastianhayashi/personal-site",
+  "default_branch": "main",
+  "current_work_branch": "agent/init-persistent-memory",
+  "privacy_mode": "public-safe-only-until-private-verified",
+  "updated_on": "2026-08-10"
+}
