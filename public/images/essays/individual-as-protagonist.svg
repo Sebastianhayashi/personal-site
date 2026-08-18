@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">AI 革命换掉配角，没有换掉主角</title>
+  <desc id="desc">中心是做出判断并承担结果的个人，周围的研究、写作、剪辑和分析工作由人逐渐转为 AI 承担。</desc>
+  <rect width="1200" height="720" fill="#f7f3eb"/>
+  <g font-family="system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Noto Sans SC',sans-serif">
+    <text x="72" y="86" font-size="24" font-weight="700" fill="#6f164c" letter-spacing="3">AI 革命</text>
+    <text x="72" y="152" font-size="50" font-family="Georgia,'Songti SC',serif" fill="#3d3b38">变化的是配角构成，不是主角位置</text>
+
+    <circle cx="600" cy="388" r="126" fill="#fffefa" stroke="#6f164c" stroke-width="4"/>
+    <text x="600" y="372" text-anchor="middle" font-size="24" fill="#8a8178">做判断并承担结果</text>
+    <text x="600" y="424" text-anchor="middle" font-size="44" font-family="Georgia,'Songti SC',serif" font-weight="700" fill="#3d3b38">个人</text>
+
+    <g fill="#fffefa" stroke="#cfc7bc" stroke-width="2">
+      <rect x="86" y="252" width="230" height="100" rx="16"/>
+      <rect x="884" y="252" width="230" height="100" rx="16"/>
+      <rect x="86" y="472" width="230" height="100" rx="16"/>
+      <rect x="884" y="472" width="230" height="100" rx="16"/>
+    </g>
+    <g font-size="22" fill="#3d3b38" text-anchor="middle">
+      <text x="201" y="312">资料研究</text>
+      <text x="999" y="312">写作表达</text>
+      <text x="201" y="532">剪辑制作</text>
+      <text x="999" y="532">分析执行</text>
+    </g>
+
+    <g stroke="#008aa0" stroke-width="3" fill="none" stroke-linecap="round">
+      <path d="M316 302 C410 310 438 330 480 350"/>
+      <path d="M884 302 C790 310 762 330 720 350"/>
+      <path d="M316 522 C410 510 438 482 480 450"/>
+      <path d="M884 522 C790 510 762 482 720 450"/>
+    </g>
+    <g fill="#008aa0" font-size="17" font-weight="700">
+      <text x="358" y="283">人 → AI</text>
+      <text x="772" y="283">人 → AI</text>
+      <text x="358" y="566">人 → AI</text>
+      <text x="772" y="566">人 → AI</text>
+    </g>
+
+    <text x="72" y="654" font-size="22" fill="#66635f">模型不会自己成为主角。谁使用模型解决问题，谁才是结果的责任人。</text>
+  </g>
+</svg>
